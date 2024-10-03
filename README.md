@@ -26,7 +26,7 @@ The following libraries are required to run the project:
 - **pywin32:** For Windows-specific functions such as window title fetching and screenshot capturing.
 
 ## dependencies
-pip install cx_Freeze psutil Pillow pynput pywin32
+pip install cx_Freeze psutil Pillow pynput pywin32 
 
 
 ## run the project
