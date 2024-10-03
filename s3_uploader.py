@@ -46,8 +46,14 @@ class S3Uploader:
             if blur:
                 screenshot = screenshot.filter(ImageFilter.GaussianBlur(radius=10))
             screenshot.save(img_byte_arr, format='PNG')
+        elif isinstance(screenshot, BytesIO):
+            # If screenshot is already a BytesIO object
+            img = Image.open(screenshot)
+            if blur:
+                img = img.filter(ImageFilter.GaussianBlur(radius=10))
+            img.save(img_byte_arr, format='PNG')
         else:
-            raise ValueError("Screenshot must be either a file path or a PIL Image object")
+            raise ValueError("Screenshot must be either a file path, a PIL Image object, or a BytesIO object")
 
         img_byte_arr.seek(0)
         
