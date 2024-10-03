@@ -42,11 +42,11 @@ mouse_clicks = 0
 
 # Configuration
 config = {
-    "capture_screenshots": True,
+    "capture_screenshots": True, 
     "blur_screenshots": False,
     "screenshot_interval": 300,
-    "screenshot_quality": 50,  # JPEG quality (0-100)
-    "max_local_storage_days": 1,  # Number of days to keep local screenshots
+    "screenshot_quality": 50,
+    "max_local_storage_days": 1,
     "screenshot_archive_dir": "archived_screenshots"
 }
 
@@ -59,7 +59,7 @@ lock = FileLock(LOCK_FILE)
 
 # Low battery detection variables
 is_laptop = hasattr(psutil, 'sensors_battery')
-low_battery_threshold = 20  # Consider 15% as low battery
+low_battery_threshold = 20  # Consider 20% as low battery
 is_tracking_suspended = False
 
 # Screenshot directory
@@ -206,12 +206,37 @@ def test_s3_connection():
     except Exception as e:
         print(f"Failed to connect to S3 bucket. Error: {str(e)}")
 
-def get_user_preference():
+def get_user_preferences():
+    preferences = {}
+    
     while True:
-        choice = input("Do you want to capture blurred screenshots? (yes/no): ").lower()
-        if choice in ['yes', 'no']:
-            return choice == 'yes'
+        capture = input("Do you want to capture screenshots? (yes/no): ").lower()
+        if capture in ['yes', 'no']:
+            preferences['capture_screenshots'] = capture == 'yes'
+            break
         print("Invalid input. Please enter 'yes' or 'no'.")
+    
+    if preferences['capture_screenshots']:
+        while True:
+            blur = input("Do you want to blur the captured screenshots? (yes/no): ").lower()
+            if blur in ['yes', 'no']:
+                preferences['blur_screenshots'] = blur == 'yes'
+                break
+            print("Invalid input. Please enter 'yes' or 'no'.")
+        
+        while True:
+            interval = input("Enter the screenshot interval in minutes (minimum 1): ")
+            try:
+                interval = int(interval)
+                if interval >= 1:
+                    preferences['screenshot_interval'] = interval * 60  # Convert to seconds
+                    break
+                else:
+                    print("Interval must be at least 1 minute.")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+    
+    return preferences
 
 def cleanup():
     lock.release()
@@ -266,13 +291,17 @@ def main():
         if not verify_mfa():
             sys.exit(1)
         
-        # Ask user for screenshot preference
-        config["capture_screenshots"] = True  # We're always capturing screenshots in this version
-        config["blur_screenshots"] = get_user_preference()
+        # Ask user for preferences
+        user_preferences = get_user_preferences()
+        config.update(user_preferences)
         
-        print(f"Configuration: Capturing {'blurred' if config['blur_screenshots'] else 'clear'} screenshots")
-        print(f"Screenshots will be compressed with quality: {config['screenshot_quality']}%")
-        print(f"Local screenshots will be archived after {config['max_local_storage_days']} days")
+        if config["capture_screenshots"]:
+            print(f"Configuration: Capturing {'blurred' if config['blur_screenshots'] else 'clear'} screenshots")
+            print(f"Screenshot interval: {config['screenshot_interval'] // 60} minutes")
+            print(f"Screenshots will be compressed with quality: {config['screenshot_quality']}%")
+            print(f"Local screenshots will be archived after {config['max_local_storage_days']} days")
+        else:
+            print("Screenshot capture is disabled.")
         
         if is_laptop:
             print("Low battery detection enabled.")
