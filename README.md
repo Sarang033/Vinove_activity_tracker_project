@@ -35,7 +35,7 @@ The following libraries are required to run the project:
 - **pywin32**: For Windows-specific functions such as window title fetching and screenshot capturing.
 
 
-## dependencies
+## Install Dependencies
 pip install cx_Freeze boto3 pillow pynput psutil python-dotenv filelock pyotp qrcode
 
 ## For Windows-specific functionality:
@@ -44,9 +44,9 @@ pip install pywin32
 ## Environment Setup
 Create a `.env` file in the project root directory with the following content:
 
-S3_BUCKET_NAME=your_bucket_name
-AWS_ACCESS_KEY_ID=your_access_key_id
-AWS_SECRET_ACCESS_KEY=your_secret_access_key
+- S3_BUCKET_NAME=your_bucket_name
+- AWS_ACCESS_KEY_ID=your_access_key_id
+- AWS_SECRET_ACCESS_KEY=your_secret_access_key
 
 Replace the placeholder values with your actual AWS credentials.
 
