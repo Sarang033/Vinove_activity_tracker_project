@@ -52,6 +52,23 @@ Replace the placeholder values with your actual AWS credentials.
 
 Ensure you have the necessary permissions to write to the specified S3 bucket.
 
+## Multi-Factor Authentication (MFA)
+
+This application uses Time-based One-Time Password (TOTP) for multi-factor authentication to enhance security.
+
+### Setting up MFA
+
+1. On first run, the application will generate a QR code and save it as `mfa_qr.png` in the project directory.
+2. Install an authenticator app on your mobile device (e.g., Google Authenticator, Authy).
+3. Open your authenticator app and scan the QR code or manually enter the provided secret key.
+4. Enter the 6-digit code from your authenticator app when prompted to complete the MFA setup.
+
+### Using MFA
+
+1. Each time you start the application, you'll be prompted to enter a 6-digit MFA code.
+2. Open your authenticator app and enter the current 6-digit code when prompted.
+3. If the code is correct, you'll be granted access to the application.
+
 ## run the project
 python user_activity_monitor.py
 
