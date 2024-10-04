@@ -69,6 +69,12 @@ This application uses Time-based One-Time Password (TOTP) for multi-factor authe
 2. Open your authenticator app and enter the current 6-digit code when prompted.
 3. If the code is correct, you'll be granted access to the application.
 
+## Note
+
+- If S3 credentials are not provided, the application will save screenshots and logs locally.
+- MFA is required for each session to ensure the security of the monitored data.
+- Keep your MFA secret key and QR code secure. Do not share them with others.
+
 ## run the project
 python user_activity_monitor.py
 
