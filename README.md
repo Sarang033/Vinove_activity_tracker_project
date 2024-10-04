@@ -20,6 +20,14 @@ The **User Activity Monitor** is a Python-based desktop application designed to 
 - **Low Battery Detection:** Suspends tracking when battery is low (for laptops).
 - **Console-based Application**: activity logs are now monitored via the console.
 - **Real-time Updates**: Activity logs and screenshots are updated every 5 minutes.
+- **Error Handling and Resilience**:
+- Implement robust error handling to manage scenarios such as:
+- **No Internet Connection:** Queue uploads and retry when the connection is restored.
+- **Abrupt Disconnection**: Safely handle application shutdowns to ensure data integrity.
+- **File Size Management:**
+- Compress screenshots before uploading to reduce file size.
+- Implement logic to automatically delete or archive old screenshots to prevent
+excessive local storage usage.
 
 ## Dependencies
 The following libraries are required to run the project:
